@@ -1,0 +1,44 @@
+Create table customers (customer_id int, product_key) ;
+
+Create table products (product_key int, product_name varchar(255) );
+
+insert into custoemrs values (1,1)
+insert into custoemrs values (1,2)
+insert into custoemrs values (2,1)
+insert into custoemrs values (3,2)
+insert into custoemrs values (1, 'ball')
+insert into custoemrs values (2, 'bat')
+insert into custoemrs values (3, 'glove')
+insert into custoemrs values (4, 'base')
+
+SQL QUERY TO REPORT CUSTOMER IDS AND PRODUCT NAMES, ALPHABETICALLY
+
+SELECT customers.customer_id, products.product_name
+FROM customers
+JOIN products ON customers.product_key = products.product_key
+ORDER BY products.product_name ASC;
+
+----------------------------------------------------------------------------------------------------------------------------------
+create table customer_sales (customer_id int, customer_name varchar(255) , purchase_date date, purchase_amount decimal (6,2) );
+insert into customer_sales values (1, 'amanda', '2022-01-01', 100.00)
+insert into customer_sales values (2, 'brad', '2022-01-02', 90.00)
+insert into customer_sales values (3, 'eric', '2022-01-03', 130.00)
+insert into customer_sales values (4, 'johan', '2022-01-04', 140.00)
+insert into customer_sales values (5, 'rick', '2022-01-05', 70.00)
+insert into customer_sales values (6, 'maya', '2022-01-06', 20.00)
+insert into customer_sales values (7, 'trish', '2022-01-07', 150.00)
+insert into customer_sales values (8, 'robyn', '2022-01-08', 100.00)
+insert into customer_sales values (9, 'bob', '2022-01-09', 110.00)
+
+SQL QUERY FOR ROLLING AVERAGE OF SALES (total sales for the day and rolling average of last 3 days), IN ORDER BY THE DATE WITH MOST RECENT DATE FIRST
+
+SELECT purchase_date, 
+SUM(purchase_amount) AS purchase_amount, 
+AVG(SUM(purchase_amount)) OVER 
+(ORDER BY purchase_date DESC
+ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING) 
+AS rolling_avg_3d
+FROM customer_sales
+GROUP BY purchase_date
+ORDER BY purchase_date DESC;
+------------------------------------------------------------------------------------------------------------------------------------
